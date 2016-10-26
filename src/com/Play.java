@@ -25,29 +25,48 @@ public class Play {
 			card.distributional(p);
 		}
 
-		System.out.println(player1.getName() + "======================");
-		for (Integer i : player1.getHandCards()) {
-			System.out.print(i+",");
-		}
-		System.out.println("");
-		System.out.println(player2.getName() + "======================");
-		for (Integer i : player2.getHandCards()) {
-			System.out.print(i+",");
-		}
-		System.out.println("");
-		System.out.println(player3.getName() + "======================");
-		for (Integer i : player3.getHandCards()) {
-			System.out.print(i+",");
-		}
-		System.out.println("");
-		//抢地主
-		System.out.println("");
+		displayCards(queue);
+		
 		System.out.println("============开始抢地主=============");
+		//抢地主
+		for (Player p : queue) {
+			p.catchLandLord(p);
+			if (p.getIsCatch() == 1) {
+				//抢到地主，把地主牌加给它
+				p.getHandCards().addAll(card.getCards());
+				break;
+			}
+		}
+		System.out.println("");
+		System.out.println("============显示地主牌=============");
 		card.showLandlordCard();
+		
+		
+		System.out.println("");
+		System.out.println("============显示玩家牌=============");
+		
+		displayCards(queue);
+		
 	}
 
 	public static void main(String[] args) {
 		Play p = new Play();
 		p.start();
+	}
+	
+	public void displayCards(LinkedList<Player> queue) {
+		for (Player p : queue) {
+			if (p.getIsCatch()==1) {
+				System.out.println(p.getName()+"  : 我是地主 ========");
+			}else {
+				
+				System.out.println(p.getName()+"  : 玩家牌 ========");
+			}
+			for (Integer i : p.getHandCards()) {
+				System.out.print(i+",");
+			}
+			System.out.println("");
+			System.out.println("");
+		}
 	}
 }
